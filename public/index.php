@@ -15,31 +15,26 @@ $dotenv = Dotenv\Dotenv::createImmutable(dirname(__DIR__) . "/app");
 $dotenv->load();
 
 $builder = new ContainerBuilder();
-$builder->addDefinitions(__DIR__ . "/../configs/container_bindings.php");
+$builder->addDefinitions(CONFIG_PATH . "/container_bindings.php");
 $container = $builder->build();
 
-$routes = require __DIR__ . "/../configs/routes.php";
+$routes = require CONFIG_PATH . "/routes.php";
 
 // Set container to create App with on AppFactory
 AppFactory::setContainer($container);
 $app = AppFactory::create();
 
-// Create Twig
-$twig = Twig::create(__DIR__ . '/../views',
-    ['cache' => STORAGE . 'cache',
-        'auto_reload' => true
-    ]);
-$twig->addExtension(new IntlExtension());
-
 $routes($app, $container);
 
 // Add Twig-View Middleware
-$app->add(TwigMiddleware::create($app, $twig));
+$app->add(TwigMiddleware::create($app, $container->get(Twig::class)));
 
-try {
+$app->addRoutingMiddleware();
+
+// This middleware should be added last
+$app->addErrorMiddleware(true, true, true);
+
+
 $app->run();
-} catch (HttpNotFoundException $e) {
-    echo $e->getTitle();
-    echo $e->getDescription();
-}
+
 

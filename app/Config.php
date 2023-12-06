@@ -23,7 +23,7 @@ class Config
             'menu' => [
             "/" => 'Home',
             "/posts"=>'Posts',
-            "/profile"=>'Profile',
+            "/profile/1"=>'Profile',
             "/test"=>'Test'
             ]
         ];

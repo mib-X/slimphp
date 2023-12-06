@@ -13,7 +13,7 @@ use Slim\Views\Twig;
 
 class PostController
 {
-    public function __construct(private EntityManager $entityManager, private Menu $menu)
+    public function __construct(private EntityManager $entityManager, private Menu $menu, private Twig $twig)
     {
 
     }
@@ -23,8 +23,7 @@ class PostController
 
         $posts = $em->getRepository(Post::class)->findall();
 
-        $view = Twig::fromRequest($request);
-        return $view->render($response, '/posts/posts.twig', [
+        return $this->twig->render($response, '/posts/posts.twig', [
             'posts' => $posts, 'menu' => $this->menu->getMenu()
         ]);
     }

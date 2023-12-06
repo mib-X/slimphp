@@ -78,9 +78,9 @@ class User
         return $this;
     }
 
-    public function getCreatedAt(): DateTime
+    public function getCreatedAt(): string
     {
-        return $this->createdAt;
+        return $this->createdAt->format('d-m-Y');
     }
 
     public function setCreatedAt(DateTime $createdAt): User
@@ -132,9 +132,9 @@ class User
         return $this;
     }
 
-    public function getBirthday(): DateTime
+    public function getBirthday(): string
     {
-        return $this->birthday;
+        return $this->birthday->format('d-m-Y');
     }
 
     public function setBirthday(DateTime $birthday): User
