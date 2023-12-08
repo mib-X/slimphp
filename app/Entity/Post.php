@@ -16,16 +16,16 @@ use Doctrine\ORM\Mapping\Table;
 #[Table(name:'posts')]
 class Post
 {
-    #[Id, Column(name:'id', type: Types::INTEGER, precision: 10), GeneratedValue]
+    #[Id, Column(name:'id', type: Types::INTEGER), GeneratedValue]
     private int $id;
 
     #[Column]
     private string $title;
 
-    #[Column(type: Types::STRING)]
+    #[Column(type: Types::TEXT, nullable: true)]
     private string $description;
 
-    #[Column]
+    #[Column(type: Types::STRING, nullable: true)]
     private string $thumb;
 
     #[Column(name:'created_at', type: Types::DATETIME_MUTABLE)]

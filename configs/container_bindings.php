@@ -2,6 +2,7 @@
 
 use App\Config;
 use App\Service\Menu;
+use App\Service\UserService;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;
@@ -13,7 +14,6 @@ use function DI\create;
 return [
     Config::class => create(Config::class)->constructor($_ENV),
     Factory::class => create(Faker\Factory::class),
-//    Menu::class => create(Menu::class)->constructor($container->get(Config::class)),
     Menu::class => function (Config $config) {
     return new Menu($config);
     },
@@ -28,5 +28,6 @@ return [
             ]);
         $twig->addExtension(new IntlExtension());
         return $twig;
-    }
+    },
+    UserService::class => fn(EntityManager $em) => new UserService($em)
 ];
